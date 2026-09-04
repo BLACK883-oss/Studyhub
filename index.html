@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#172033"><meta name="description" content="StudyHub Mid-Term study dashboard">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icons/icon.svg">
+<title>StudyHub</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f6fb;color:#172033}.app{max-width:1100px;margin:auto;padding:16px}
+header{background:#172033;color:white;border-radius:22px;padding:22px;margin-bottom:14px}.hero{display:flex;justify-content:space-between;gap:15px;align-items:center}.days{font-size:34px;font-weight:800}
+nav{display:flex;gap:8px;overflow:auto;margin:12px 0}button,select{border:0;border-radius:12px;padding:11px 14px;font-size:15px;cursor:pointer}button{background:#172033;color:#fff}.secondary{background:#e8edf5;color:#172033}
+section{display:none}.active{display:block}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{background:#fff;border-radius:18px;padding:17px;box-shadow:0 4px 18px #0000000b;margin-bottom:12px}.stat{font-size:26px;font-weight:800}.muted{color:#697386;font-size:13px}.progress{height:9px;background:#e8ecf2;border-radius:20px;overflow:hidden;margin:8px 0}.bar{height:100%;background:#172033;width:0}
+.subjects{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.sub{border:1px solid #e3e7ee;border-radius:14px;padding:14px}.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.controls select{width:100%;background:#eef2f7}.question{font-size:20px;font-weight:700;margin:15px 0}.option{display:block;width:100%;text-align:left;margin:8px 0;background:#eef2f7;color:#172033}.correct{background:#d9f5df!important}.wrong{background:#ffdede!important}
+table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px;border-bottom:1px solid #e6e9ef}#clock{font-size:54px;font-weight:800}.mistake{border-left:4px solid #172033;padding:10px 12px;background:#f7f8fb;margin:8px 0}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.subjects,.controls{grid-template-columns:1fr}.hero{display:block}.days{margin-top:10px}}
+</style></head><body><div class="app">
+<header><div class="hero"><div><h1>🎓 StudyHub</h1><p>Grade VII • Mid-Term Mission 2026</p></div><div><div class="days" id="days">--</div><div>days until 28 September</div></div></div></header>
+<nav><button onclick="show('home')">🏠 Home</button><button onclick="show('quiz')">🧠 Quiz</button><button onclick="show('syllabus')">📚 Syllabus</button><button onclick="show('exams')">📅 Exams</button><button onclick="show('mistakes')">❌ Mistakes</button><button onclick="show('timer')">⏱️ Timer</button></nav>
+<section id="home" class="active"><div class="grid"><div class="card"><div class="stat" id="xp">0 XP</div><div class="muted">XP</div></div><div class="card"><div class="stat" id="accuracy">0%</div><div class="muted">Quiz accuracy</div></div><div class="card"><div class="stat" id="attempts">0</div><div class="muted">Questions attempted</div></div><div class="card"><div class="stat">🔥 <span id="streak">1</span></div><div class="muted">Study streak</div></div></div>
+<div class="card"><h2>🎯 Today's Mission</h2><p>Complete 1 quiz and 1 focus session.</p><div class="progress"><div class="bar" id="goalbar"></div></div><b id="goaltext">0 / 2 completed</b></div>
+<div class="card"><h2>⚡ First Exam</h2><h3>Computer Science — 28 September 2026</h3><p>Use the countdown to stay on track.</p></div></section>
+<section id="quiz"><div class="card"><h2>🧠 Mid-Term Quiz Arena</h2><div class="controls"><select id="chapter"><option value="all">All available</option><option>Computer Ethics</option><option>Creating Charts in MS Excel</option><option>Formulae in MS Excel</option><option>Electricity</option><option>Life Processes in Plants</option><option>Integers</option><option>Linear Equations</option><option>Data Handling</option></select><select id="difficulty"><option>Mixed</option><option>Easy</option><option>Hard</option></select><select id="count"><option value="5">5 Questions</option><option value="10">10 Questions</option></select><select id="subject"><option>Computer Science</option><option>Science</option><option>Maths</option></select></div><br><button onclick="startQuiz()">Start Quiz</button><div id="quizbox"></div></div></section>
+<section id="syllabus"><div class="card"><h2>📚 Mid-Term Portions</h2><div class="subjects">
+<div class="sub"><h3>💻 Computer Science</h3><p>Ch 4 — Elaboration on MS Excel 2007</p><p>Ch 5 — Creating Charts in MS Excel</p><p>Ch 11 — Computer Ethics</p><p><b>Practical:</b> Ch 3 — Formulae in MS Excel</p></div>
+<div class="sub"><h3>🧪 Science</h3><p><b>Physics:</b> Ch 3 Electricity: Electric Circuit and Components; Ch 7 Heat Transfer in Nature</p><p><b>Chemistry:</b> Ch 2 Exploring Substances: Acidic, Basic and Neutral; Ch 4 The World of Metals and Non-metals</p><p><b>Biology:</b> Ch 10 Life Processes in Plants; Ch 9 Life Processes in Animals (pp. 140–149, till Nutrition in Humans)</p></div>
+<div class="sub"><h3>🌍 Social Science</h3><p><b>History:</b> Ch 5 The Rise of Empires; Ch 6 The Age of Reorganization</p><p><b>Geography:</b> Ch 2 Understanding Weather; Ch 3 Climates of India</p><p><b>Civics:</b> Ch 9 The Constitution of India — Introduction</p><p><b>Economics:</b> Ch 12 Understanding Markets</p></div>
+<div class="sub"><h3>➗ Mathematics</h3><p>Integers • Multiplication/Division of Fractions • Multiplication/Division of Decimals • Linear Equations • Lines and Angles • Properties of Triangles • Conversion of Metric Measures • Algebraic Expressions • Data Handling</p></div>
+<div class="sub"><h3>📖 English</h3><p><b>Literature:</b> Casablanca, The Luncheon, Rats on the Train; The Weavers, The Merchant of Venice, Muddleheaded</p><p><b>Grammar:</b> Transitive/Intransitive Verbs, Pronouns, Adjectives, Modal Auxiliary</p><p><b>Writing:</b> Formal Letter, Diary Entry, Notice, Essay Writing</p></div>
+<div class="sub"><h3>📝 III Language</h3><p>Sanskrit: L-3, 4, 5, 6, 7; unseen passage; complete the letter.</p><p>Hindi: Lesson 4 Bhart Hamara Ghar; Lesson 5 Peer Grahan Par Yaatra; Lesson 6 Vishwaariya Nara; Lekhan: Lekh, Kahani, Nibandh.</p></div>
+<div class="sub"><h3>🪷 II Language</h3><p>Kannada — use the chapter list from your school notice for detailed practice.</p></div>
+</div></div></section>
+<section id="exams"><div class="card"><h2>📅 Exam Timetable</h2><table><tr><th>Date</th><th>Paper</th></tr><tr><td>28 Sep</td><td>Computer Science</td></tr><tr><td>29 Sep</td><td>III Language</td></tr><tr><td>30 Sep</td><td>Study Holiday</td></tr><tr><td>1 Oct</td><td>Science</td></tr><tr><td>2 Oct</td><td>Gandhi Jayanti</td></tr><tr><td>3 Oct</td><td>Social Science</td></tr><tr><td>4 Oct</td><td>Holiday</td></tr><tr><td>5 Oct</td><td>English Communicative</td></tr><tr><td>6 Oct</td><td>Study Holiday</td></tr><tr><td>7 Oct</td><td>II Language</td></tr><tr><td>8 Oct</td><td>Study Holiday</td></tr><tr><td>9 Oct</td><td>Mathematics</td></tr></table><p class="muted">Reading 08:45–09:00 • Writing 09:00–12:00</p></div></section>
+<section id="mistakes"><div class="card"><h2>❌ Mistake Bank</h2><div id="mistakeList"></div></div></section>
+<section id="timer"><div class="card"><h2>⏱️ Focus Timer</h2><div id="clock">25:00</div><button onclick="startTimer()">Start</button> <button class="secondary" onclick="pauseTimer()">Pause</button> <button class="secondary" onclick="resetTimer()">Reset</button></div></section>
+</div>
+<script>
+const data=[
+["Computer Ethics","What is a good example of computer ethics?",["Respecting privacy","Sharing passwords","Copying work","Spreading false information"],0],
+["Creating Charts in MS Excel","Which chart is commonly used to show parts of a whole?",["Pie chart","Line chart","Scatter chart","Area chart"],0],
+["Formulae in MS Excel","Which symbol normally begins a formula in Excel?",["#","=","@","&"],1],
+["Electricity","A complete path through which electric current flows is called a?",["Circuit","Magnet","Switchboard","Insulator"],0],
+["Life Processes in Plants","Which process helps green plants make food?",["Respiration","Photosynthesis","Digestion","Excretion"],1],
+["Integers","What is -7 + 12?",["-19","-5","5","19"],2],
+["Linear Equations","If x + 5 = 12, x equals?",["5","6","7","8"],2],
+["Data Handling","Which graph is useful for comparing categories?",["Bar graph","Compass","Map","Number line"],0]];
+let st=JSON.parse(localStorage.getItem("studyhub")||'{"xp":0,"attempts":0,"correct":0,"mistakes":[]}'),quiz=[],qi=0,locked=false,goals=0;
+function save(){localStorage.setItem("studyhub",JSON.stringify(st));update()}
+function update(){xp.textContent=st.xp+" XP";attempts.textContent=st.attempts;accuracy.textContent=(st.attempts?Math.round(st.correct/st.attempts*100):0)+"%";streak.textContent=1;renderMistakes()}
+function show(id){document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active")}
+function startQuiz(){let c=chapter.value,p=c==="all"?data:data.filter(x=>x[0]===c);if(!p.length)p=data;quiz=[...p].sort(()=>Math.random()-.5).slice(0,+count.value);qi=0;locked=false;renderQ();goals=Math.max(goals,1);goalUpdate()}
+function renderQ(){if(qi>=quiz.length){quizbox.innerHTML="<div class='card'><h2>🏆 Quiz complete!</h2><p>Result saved to your dashboard.</p></div>";return}let q=quiz[qi];quizbox.innerHTML="<div class='question'>"+(qi+1)+". "+q[1]+"</div>"+q[2].map((o,i)=>`<button class="option" onclick="answer(${i})">${o}</button>`).join("")+"<p id='result'></p>"}
+function answer(i){if(locked)return;locked=true;let q=quiz[qi],opts=document.querySelectorAll(".option");st.attempts++;if(i===q[3]){st.correct++;st.xp+=10;opts[i].classList.add("correct");result.textContent="✅ Correct! +10 XP"}else{opts[i].classList.add("wrong");opts[q[3]].classList.add("correct");result.textContent="❌ Correct answer: "+q[2][q[3]];st.mistakes.push(q[1]+" — "+q[2][q[3]])}save();setTimeout(()=>{qi++;locked=false;renderQ()},800)}
+function renderMistakes(){mistakeList.innerHTML=st.mistakes.length?st.mistakes.slice(-15).reverse().map(x=>"<div class='mistake'>"+x+"</div>").join(""):"<p class='muted'>No mistakes yet. Keep going!</p>"}
+function goalUpdate(){goalbar.style.width=(goals/2*100)+"%";goaltext.textContent=goals+" / 2 completed"}
+let sec=1500,int=null;function draw(){clock.textContent=String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0")}function startTimer(){if(int)return;int=setInterval(()=>{if(sec){sec--;draw()}else{clearInterval(int);int=null;goals=2;goalUpdate();st.xp+=25;save();alert("🎉 Focus session complete! +25 XP")}},1000)}function pauseTimer(){clearInterval(int);int=null}function resetTimer(){pauseTimer();sec=1500;draw()}
+function countdown(){let d=Math.ceil((new Date("2026-09-28T00:00:00+05:30")-new Date())/86400000);days.textContent=Math.max(0,d)}update();goalUpdate();draw();countdown();
+if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+</script></body></html>
